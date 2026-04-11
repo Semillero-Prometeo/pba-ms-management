@@ -2,9 +2,10 @@ import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { configRoot } from './core/settings/app.setting';
 import { AppController } from './app.controller';
+import { OpenaiIntegrationModule } from './openai-integration/openai-integration.module';
 
 @Module({
-  imports: [ConfigModule.forRoot(configRoot())],
+  imports: [ConfigModule.forRoot(configRoot()), OpenaiIntegrationModule],
   controllers: [AppController],
 })
 export class AppModule {}

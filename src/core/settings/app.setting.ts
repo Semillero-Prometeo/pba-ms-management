@@ -6,6 +6,9 @@ export interface AppConfiguration {
   port: string;
   databaseUrl: string;
   natsServer: string;
+  openaiApiKey: string;
+  openaiSystemPrompt: string;
+  openaiModel: string;
 }
 
 const configurations = registerAs(
@@ -15,6 +18,9 @@ const configurations = registerAs(
     port: process.env.PORT,
     databaseUrl: process.env.DATABASE_URL,
     natsServer: process.env.NATS_SERVER,
+    openaiApiKey: process.env.OPENAI_API_KEY,
+    openaiSystemPrompt: process.env.OPENAI_SYSTEM_PROMPT,
+    openaiModel: process.env.OPENAI_MODEL,
   }),
 );
 
@@ -27,6 +33,9 @@ export function configRoot(): ConfigModuleOptions {
       PORT: Joi.number().required(),
       DATABASE_URL: Joi.string().required(),
       NATS_SERVER: Joi.string().required(),
+      OPENAI_API_KEY: Joi.string().required(),
+      OPENAI_SYSTEM_PROMPT: Joi.string().required(),
+      OPENAI_MODEL: Joi.string().required(),
     }),
   };
 }
