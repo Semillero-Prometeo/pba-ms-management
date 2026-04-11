@@ -11,8 +11,6 @@ export class ChatService {
     async chat(chatStructuredRequestDto: ChatStructuredRequestDto): Promise<ChatStructuredResponseDto> {
         const chatResponse = await this.openaiIntegrationService.chatStructured(chatStructuredRequestDto);
 
-        console.log('chatResponse', chatResponse);
-        
         await this.msRoboticsService.speak({ message: chatResponse.reply });
 
         return chatResponse;
