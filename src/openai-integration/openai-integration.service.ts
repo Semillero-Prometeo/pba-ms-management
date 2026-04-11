@@ -1,29 +1,24 @@
-import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
+import { Injectable, Logger } from '@nestjs/common';
 import { RpcException } from '@nestjs/microservices';
 import { plainToInstance } from 'class-transformer';
 import { validateSync } from 'class-validator';
 import OpenAI from 'openai';
 
 import { ChatStructuredResponseDto } from './dto/chat-structured-response.dto';
-import { CHAT_STRUCTURED_JSON_SCHEMA } from './openai-response.schema';
+import { CHAT_STRUCTURED_JSON_SCHEMA } from './schema/openai-response.schema';
 
 @Injectable()
 export class OpenaiIntegrationService {
-  constructor(private readonly configService: ConfigService) {}
-
+  private readonly logger = new Logger(OpenaiIntegrationService.name);
+  
   async chatStructured(userMessage: string): Promise<ChatStructuredResponseDto> {
-    const apiKey = this.configService.get<string>('configEnvs.openaiApiKey');
-    const systemPrompt = this.configService.get<string>('configEnvs.openaiSystemPrompt');
-    const model = this.configService.get<string>('configEnvs.openaiModel');
-
-    const client = new OpenAI({ apiKey });
+    const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
     try {
       const completion = await client.chat.completions.create({
-        model,
+        model: process.env.OPENAI_MODEL,
         messages: [
-          { role: 'system', content: systemPrompt },
+          { role: 'system', content: process.env.OPENAI_SYSTEM_PROMPT },
           { role: 'user', content: userMessage },
         ],
         response_format: {
@@ -54,7 +49,9 @@ export class OpenaiIntegrationService {
         });
       }
 
-      const dto = plainToInstance(ChatStructuredResponseDto, parsed);
+      this.logger.log('Parsed response:', parsed);
+
+      const dto = plainToInstance<ChatStructuredResponseDto, unknown>(ChatStructuredResponseDto, parsed);
       const errors = validateSync(dto);
       if (errors.length > 0) {
         throw new RpcException({
