@@ -51,6 +51,7 @@
     "mariadb": "^3.4.5",
     "nats": "^2.29.3",
     "nest-winston": "^1.10.0",
+    "openai": "^4.104.0",
     "passport": "^0.7.0",
     "passport-jwt": "^4.0.1",
     "prisma": "^7.1.0",
