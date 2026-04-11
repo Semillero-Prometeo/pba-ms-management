@@ -11,7 +11,7 @@ import { CHAT_STRUCTURED_JSON_SCHEMA } from './schema/openai-response.schema';
 export class OpenaiIntegrationService {
   private readonly logger = new Logger(OpenaiIntegrationService.name);
   
-  async chatStructured(userMessage: string): Promise<ChatStructuredResponseDto> {
+  async chatStructured({ message }: { message: string }): Promise<ChatStructuredResponseDto> {
     const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
     try {
@@ -19,7 +19,7 @@ export class OpenaiIntegrationService {
         model: process.env.OPENAI_MODEL,
         messages: [
           { role: 'system', content: process.env.OPENAI_SYSTEM_PROMPT },
-          { role: 'user', content: userMessage },
+          { role: 'user', content: message },
         ],
         response_format: {
           type: 'json_schema',
