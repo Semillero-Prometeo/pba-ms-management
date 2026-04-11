@@ -6,6 +6,7 @@ import OpenAI from 'openai';
 
 import { ChatStructuredResponseDto } from './dto/chat-structured-response.dto';
 import { CHAT_STRUCTURED_JSON_SCHEMA } from './schema/openai-response.schema';
+import { OPENAI_SYSTEM_PROMPT } from './constants/system-prompt.constant';
 
 @Injectable()
 export class OpenaiIntegrationService {
@@ -18,7 +19,7 @@ export class OpenaiIntegrationService {
       const completion = await client.chat.completions.create({
         model: process.env.OPENAI_MODEL,
         messages: [
-          { role: 'system', content: process.env.OPENAI_SYSTEM_PROMPT },
+          { role: 'system', content: OPENAI_SYSTEM_PROMPT },
           { role: 'user', content: message },
         ],
         response_format: {
