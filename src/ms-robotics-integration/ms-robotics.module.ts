@@ -1,6 +1,6 @@
-import { NatsModule } from "src/transports/nats.module";
-import { MsRoboticsService } from "./ms-robotics.service";
-import { Module } from "@nestjs/common";
+import { NatsModule } from 'src/transports/nats.module';
+import { MsRoboticsService } from './ms-robotics.service';
+import { Module } from '@nestjs/common';
 
 @Module({
   imports: [NatsModule],

@@ -11,7 +11,7 @@ import { OPENAI_SYSTEM_PROMPT } from './constants/system-prompt.constant';
 @Injectable()
 export class OpenaiIntegrationService {
   private readonly logger = new Logger(OpenaiIntegrationService.name);
-  
+
   async chatStructured({ message }: { message: string }): Promise<ChatStructuredResponseDto> {
     const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
