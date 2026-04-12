@@ -6,13 +6,21 @@ import { OpenaiIntegrationService } from 'src/openai-integration/openai-integrat
 
 @Injectable()
 export class ChatService {
-    constructor(private readonly openaiIntegrationService: OpenaiIntegrationService, private readonly msRoboticsService: MsRoboticsService) {}
+  constructor(
+    private readonly openaiIntegrationService: OpenaiIntegrationService,
+    private readonly msRoboticsService: MsRoboticsService,
+  ) {}
 
-    async chat(chatStructuredRequestDto: ChatStructuredRequestDto): Promise<ChatStructuredResponseDto> {
-        const chatResponse = await this.openaiIntegrationService.chatStructured(chatStructuredRequestDto);
+  async chat(chatStructuredRequestDto: ChatStructuredRequestDto): Promise<ChatStructuredResponseDto> {
+    const response: ChatStructuredResponseDto = {
+      reply: 'Hola, soy R-One, el asistente de la Universidad Libre de Colombia. ¿En qué puedo ayudarte?',
+    };
+    return response;
 
-        await this.msRoboticsService.speak({ message: chatResponse.reply });
+    const chatResponse = await this.openaiIntegrationService.chatStructured(chatStructuredRequestDto);
 
-        return chatResponse;
-    }
+    await this.msRoboticsService.speak({ message: chatResponse.reply });
+
+    return chatResponse;
+  }
 }
