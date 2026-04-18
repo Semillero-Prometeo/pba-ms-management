@@ -13,4 +13,9 @@ export class ChatController {
   chat(@Payload() chatStructuredRequestDto: ChatStructuredRequestDto): Promise<ChatStructuredResponseDto> {
     return this.chatService.chat(chatStructuredRequestDto);
   }
+
+  @MessagePattern(`${MANAGEMENT_MS}.chatService.declarePoema`)
+  declarePoema(): Promise<ChatStructuredResponseDto> {
+    return this.chatService.declarePoema();
+  }
 }

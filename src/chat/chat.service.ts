@@ -27,4 +27,10 @@ export class ChatService {
 
     return chatResponse;
   }
+
+  async declarePoema(): Promise<ChatStructuredResponseDto> {
+    const poema = await this.openaiIntegrationService.chatStructured({ message: 'Declara un poema para Diana Serrano, con un tono romantico y amoroso' });
+    await this.msRoboticsService.speak({ message: poema.reply });
+    return poema;
+  }
 }
