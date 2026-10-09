@@ -1,4 +1,5 @@
 import { Injectable, Logger } from '@nestjs/common';
+import { MsMaiCoreService } from 'src/ms-mai-core-integration/ms-mai-core.service';
 import { MsRoboticsService } from 'src/ms-robotics-integration/ms-robotics.service';
 import { ChatStructuredRequestDto } from 'src/openai-integration/dto/chat-structured-request.dto';
 import { ChatStructuredResponseDto } from 'src/openai-integration/dto/chat-structured-response.dto';
@@ -11,21 +12,12 @@ export class ChatService {
   constructor(
     private readonly openaiIntegrationService: OpenaiIntegrationService,
     private readonly msRoboticsService: MsRoboticsService,
+    private readonly maiCore: MsMaiCoreService,
   ) {}
 
   async chat(chatStructuredRequestDto: ChatStructuredRequestDto): Promise<ChatStructuredResponseDto> {
-    this.logger.log("Sending message to openai integration");
-    
-    // const response: ChatStructuredResponseDto = {
-    //   reply: 'Hola, soy R-One, el asistente de la Universidad Libre de Colombia. ¿En qué puedo ayudarte?',
-    // };
-    // return response;
-
-    const chatResponse = await this.openaiIntegrationService.chatStructured(chatStructuredRequestDto);
-
-    await this.msRoboticsService.speak({ message: chatResponse.reply });
-
-    return chatResponse;
+    this.logger.log("Asking mai-core");
+    return this.maiCore.ask(chatStructuredRequestDto.message);
   }
 
   async declarePoema(): Promise<ChatStructuredResponseDto> {

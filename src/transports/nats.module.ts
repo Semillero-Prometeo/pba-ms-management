@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { ConfigModule } from '@nestjs/config';
 import { ClientsModule, Transport } from '@nestjs/microservices';
-import { NATS_SERVICE } from 'src/core/constants/ms-names.constant';
+import { MAI_CORE_NATS, NATS_SERVICE } from 'src/core/constants/ms-names.constant';
 import configurations from 'src/core/settings/app.setting';
 
 @Module({
@@ -27,6 +27,24 @@ import configurations from 'src/core/settings/app.setting';
             },
           }),
         },
+        {
+          name: MAI_CORE_NATS,
+          imports: [ConfigModule.forRoot()],
+          inject: [configurations.KEY],
+          useFactory: (configEnvs: ConfigType<typeof configurations>) => ({
+            transport: Transport.NATS,
+            options: {
+              servers: configEnvs.natsServer,
+              reconnect: true,
+              waitOnFirstConnect: true,
+              reconnectTimeWait: 2000,
+              maxReconnectAttempts: -1,
+              timeout: 120000,
+              pingInterval: 20000,
+              maxPingOut: 2,
+            },
+          }),
+        },
       ],
     }),
   ],
@@ -46,6 +64,24 @@ import configurations from 'src/core/settings/app.setting';
               reconnectTimeWait: 2000,
               maxReconnectAttempts: -1,
               timeout: 20000,
+              pingInterval: 20000,
+              maxPingOut: 2,
+            },
+          }),
+        },
+        {
+          name: MAI_CORE_NATS,
+          imports: [ConfigModule.forRoot()],
+          inject: [configurations.KEY],
+          useFactory: (configEnvs: ConfigType<typeof configurations>) => ({
+            transport: Transport.NATS,
+            options: {
+              servers: configEnvs.natsServer,
+              reconnect: true,
+              waitOnFirstConnect: true,
+              reconnectTimeWait: 2000,
+              maxReconnectAttempts: -1,
+              timeout: 120000,
               pingInterval: 20000,
               maxPingOut: 2,
             },
