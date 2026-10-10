@@ -16,8 +16,10 @@ export class ChatService {
   ) {}
 
   async chat(chatStructuredRequestDto: ChatStructuredRequestDto): Promise<ChatStructuredResponseDto> {
-    this.logger.log("Asking mai-core");
-    return this.maiCore.ask(chatStructuredRequestDto.message);
+    this.logger.log(`Asking mai-core: ${chatStructuredRequestDto.message}`);
+    const response = await this.maiCore.ask(chatStructuredRequestDto.message);
+    this.logger.log(`mai-core replied fuente=${response.fuente ?? ""}`);
+    return response;
   }
 
   async declarePoema(): Promise<ChatStructuredResponseDto> {
