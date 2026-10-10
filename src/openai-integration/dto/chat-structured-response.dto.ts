@@ -7,4 +7,7 @@ export class ChatStructuredResponseDto {
   @IsOptional()
   @IsString()
   fuente?: string;
+
+  @IsOptional()
+  movimientos?: { id: number; name: string }[];
 }
