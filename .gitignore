@@ -49,6 +49,9 @@ lerna-debug.log*
 .temp
 .tmp
 
+# Runtime chat route
+/data/chat-route.json
+
 # Runtime data
 pids
 *.pid

@@ -36,6 +36,7 @@ export function configRoot(): ConfigModuleOptions {
       OPENAI_API_KEY: Joi.string().required(),
       OPENAI_SYSTEM_PROMPT: Joi.string().required(),
       OPENAI_MODEL: Joi.string().required(),
+      MS_MANAGEMENT_CHAT_ROUTE_PATH: Joi.string().optional().allow(''),
     }),
   };
 }
